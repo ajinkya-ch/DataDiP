@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>DataDiP: An application to make Data Differentially Private</title>
+  <!-- Meta tag Keywords -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="keywords"
+    content="TECH uses a mixture of mature Agile development capabilities, design thinking, and nearly 20 years of product development services. We have experience working in blockchain, NLP, ML and IOT based solutions." />
+  <!-- //Meta tag Keywords -->
+
+  <!-- Custom-Files -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" media="all">
+
+  <!-- Bootstrap-Core-CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}" media="all">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/slider.css') }}" media="all">
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+  <!-- 
+    
+   
+  <!-- Style-CSS -->
+  <!-- font-awesome-icons -->
+  <!-- <link href="css/font_awesome.css" rel="stylesheet"> -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <!-- //font-awesome-icons -->
+  <!-- /Fonts -->
+  <link
+    href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i"
+    rel="stylesheet">
+  <!-- //Fonts -->
+  <meta charset="UTF-8">
+
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons'> -->
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/modalcss1.css') }}" media="all">
+
+</head>
+<style>
+  span {
+    color: #666;
+    display: block;
+    padding: 0 0 5px;
+  }
+  ol {
+    counter-reset: li; 
+    list-style: none; 
+    padding:20;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  }
+  
+  ol a {
+    position: relative;
+    display: block;
+    padding: .4em .4em .4em 2em;
+    margin: .5em 0;
+    background: #DAD2CA;
+    color: #444;
+    text-decoration: none;
+    border-radius: .3em;
+    transition: .3s ease-out;
+  }
+  
+  ol a:hover { background: #E9E4E0; }
+  ol a:hover:before { transform: rotate(360deg); }
+  ol a:before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    left: -1.3em;
+    top: 50%;
+    margin-top: -1.3em;
+    background: #f9dd94;
+    height: 2em;
+    width: 2em;
+    line-height: 2em;
+    border: .3em solid #fff;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 2em;
+    transition: all .3s ease-out;
+  }
+      
+  #count {
+
+    position: inherit;
+    color: black;
+    font-size: large;
+    visibility: visible;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 8;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-content {
+    margin: 50px auto;
+    border: 1px solid #999;
+    width: 60%;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2), 0 10px 30px 0 rgba(0, 0, 0, 0.19);
+
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+
+
+  .contact-form {
+    padding: 25px;
+    margin: 25px;
+    font-size: large;
+    box-shadow: 0 2px 5px #f5f5f5;
+    background: #eee;
+  }
+
+  input,
+  textarea {
+    width: relative;
+    padding: 12px;
+    margin-bottom: 1px;
+    border: 1px solid #1c87c9;
+    outline: none;
+    border-radius: 20px;
+
+  }
+
+  .contact-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #1c87c9;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  button:hover {
+    background: #2371a0;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  select {
+    font-size: 2rem;
+    padding: 5px 8px;
+    background-color: white;
+    border-top: #02274a 0.5px solid;
+    ;
+    outline: none;
+    border-right: #02274a 0.5px solid;
+    ;
+    border-left: #02274a 0.5px solid;
+    ;
+    border-bottom: #02274a 0.5px solid;
+    padding: 0 0 3px 0;
+    font-size: 25px;
+    border-radius: 20px;
+
+  }
+
+  .submit-button {
+    border-radius: 20px;
+    background-color: #e9eff5;
+    font-family: 'Droid Sans', sans-serif;
+    color: #111010;
+    font-size: 20px;
+  }
+
+  .file-button {
+    border-radius: 20px;
+    background-color: #e9eff5;
+    font-family: 'Droid Sans', sans-serif;
+    color: #111010;
+    font-size: 15px;
+  }
+
+
+  .styled-select select {
+    -moz-appearance: none;
+    /* Firefox */
+    -webkit-appearance: none;
+    /* Safari and Chrome */
+    appearance: none;
+  }
+
+  button.button {
+    background: none;
+    border-top: none;
+    outline: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: #02274a 0.5px solid;
+    padding: 0 0 3px 0;
+    font-size: 25px;
+    cursor: pointer;
+    border-radius: 50px;
+    margin-top: 20px;
+
+  }
+
+  #modalForm {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #1c87c9;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  button.button:hover {
+    border-bottom: #a99567 1px solid;
+    color: green;
+  }
+
+  .label {
+    color: white;
+    padding: 8px;
+  }
+</style>
+
+
+
+
+<body>
+
+  <header>
+    <div class="container">
+      <!-- nav -->
+      <nav class="py-3 d-lg-flex">
+        <div id="logo">
+          <h1> <a href="/">
+              <span class="fa" id="starttitle">TECH </span>
+              <span class="fa" id="endtitle">Security</span>
+
+            </a>
+          </h1>
+        </div>
+        <label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
+        <input type="checkbox" id="drop" />
+        <ul class="menu ml-auto mt-1">
+          <li class="active"><a href="/">Home</a></li>
+          <li class=""><a href="#about">About</a></li>
+          <li class=""><a href="#services">features</a></li>
+          <li class=""><a href="#application">TECH DIFFERENTIAL PRIVACY APPLICATION</a></li>
+          <!-- <li class=""><a href="#contact">Contact</a></li> -->
+        </ul>
+      </nav>
+      <!-- //nav -->
+    </div>
+  </header>
+  <div class="banner" id="home">
+    <div class="layer">
+      <div class="container">
+        <div class="banner-text-w3pvt">
+          <!-- banner slider-->
+          <div class="csslider infinity" id="slider1">
+            <input type="radio" name="slides" checked="checked" id="slides_1" />
+            <input type="radio" name="slides" id="slides_2" />
+            <input type="radio" name="slides" id="slides_3" />
+            <ul class="banner_slide_bg">
+              <li>
+                <div class="w3ls_banner_txt">
+
+                  <h1 style="color: white;" class="b-w3ltxt text-capitalize mt-md-4">DataDiP: An application to make
+                    Data Differentially Private</h1>
+
+                  <!-- <a href="#about" class="btn btn-banner my-sm-3 mr-2">Read More</a> -->
+
+                </div>
+              </li>
+              <li>
+                <div class="w3ls_banner_txt">
+                  <h3 class="b-w3ltxt text-capitalize mt-md-4">“Data is the pollution problem of the information age,
+                    and protecting privacy is the environmental challenge.”</h3>
+                  <h3 class="b-w3ltxt text-capitalize mt-md-4"> — Bruce Schneier</h3>
+
+                  <!-- <a href="#about" class="btn btn-banner my-sm-3 mr-2">Read More</a> -->
+
+                </div>
+              </li>
+              <li>
+                <div class="w3ls_banner_txt">
+                  <h3 class="b-w3ltxt text-capitalize mt-md-4">“Differential privacy makes it possible for tech
+                    companies to collect and share aggregate information about user habits, while maintaining the
+                    privacy of individual users.”</h3>
+
+                  <!-- <a href="#about" class="btn btn-banner my-sm-3 mr-2">Read More</a> -->
+
+                </div>
+              </li>
+            </ul>
+            <div class="navigation">
+              <div>
+                <label for="slides_1"></label>
+                <label for="slides_2"></label>
+                <label for="slides_3"></label>
+              </div>
+            </div>
+          </div>
+          <!-- //banner slider-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //banner -->
+  <section class="services py-5" id="about">
+    <div class="container py-md-5 py-3">
+      <!-- <h5 class="heading mb-2">Exclusive Services</h5> -->
+      <h3 class="heading  mb-5">WHAT IS DIFFERENTIAL PRIVACY?</h3>
+      <div class="feature-grids row">
+        <div class="col-lg-4 col-md-6 col-sm-6 mb-5">
+          <div class="bottom-gd">
+            <span>01</span>
+            <!-- <h3 class="mt-4">WHAT</h3> -->
+            <p class="mt-2">Differential privacy mathematically guarantees that anyone seeing the result of a
+              differentially private analysis will essentially make the same inference about any individual’s private
+              information, whether or not that individual’s private information is included in the input to the
+              analysis.</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 mb-5">
+          <div class="bottom-gd">
+            <span>02</span>
+            <!-- <h3 class="mt-4">Architectural Consulting</h3> -->
+            <p class="mt-2">Ensuring privacy is crucial for numerous applications, including maintaining the integrity
+              of sensitive information, eliminating the opportunity for adversaries to track users based on personally
+              identifiable information (PII), etc. DP is appealing for a variety of applications because it guarantees
+              the following privacy “needs”:</p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 mb-5">
+          <div class="bottom-gd">
+            <span>03</span>
+            <!-- <h3 class="mt-4"> Web Development</h3> -->
+            <p class="mt-2"> DP provides a mathematically provable guarantee of privacy protection against a wide range
+              of privacy attacks (include differencing attack, linkage attacks, and reconstruction attacks).</p>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+  <!-- //about -->
+  <!-- about bottom -->
+  <section class="about-bottom py-5" id="services">
+    <div class="container py-md-5 py-3">
+      <!-- <h5 class="heading mb-2">How we work</h5> -->
+      <h3 class="heading mb-sm-5 mb-3">OUR FEATURES</h3>
+      <div class="row">
+        <div class="col-lg-6 left-img">
+          <img src="static/private.jpeg" class="img-fluid" alt="" />
+        </div>
+        <div class="col-lg-6 mt-lg-0 mt-4">
+          <div class="row inner-heading">
+            <div class="col-md-2">
+              <span class="fa fa-bullseye"></span>
+            </div>
+            <div class="col-md-10">
+              <h4 class="mt-md-0 mt-2">MAKE YOUR DATA PRIVATE</h4>
+              <!-- <p class="mt-3">To increase the utility of private datasets.</p> -->
+              <!-- <a href="#" class="btn">Read More</a> -->
+            </div>
+            <div class="col-md-2 mt-5">
+              <span class="fa fa-lightbulb-o"></span>
+            </div>
+            <div class="col-md-10 mt-md-5">
+              <h4 class="mt-md-0 mt-2">COMPARE PRIVATE AND NON PRIVATE MACHINE LEARNING </h4>
+              <!-- <p class="mt-3">To illustrate the differences between DP and non DP machine learning.</p> -->
+              <!-- <a href="#" class="btn">Read More</a> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-lg-6 mt-lg-0 mt-4">
+          <div class="row inner-heading">
+            <div class="col-md-2">
+              <span class="fa fa-question-circle"></span>
+            </div>
+            <div class="col-md-10">
+              <h4 class="mt-md-0 mt-2">EXPLORE DATASETS FROM OUR REPOSITORY</h4>
+              <!-- <p class="mt-3">To allow the usage of sensitive datasets by public for R&D without compromising on the -->
+                <!--  .</p> -->
+              <!-- <a href="#" class="btn">Read More</a> -->
+            </div>
+            <div class="col-md-2 mt-5">
+              <span class="fa fa-bullhorn"></span>
+            </div>
+            <div class="col-md-10 mt-md-5">
+              <h4 class="mt-md-0 mt-2">UNDERSTAND THE EFFECTS OF DP ON YOUR DATA</h4>
+              <!-- <p class="mt-3"> </p> -->
+              <!-- <a href="#" class="btn">Read More</a> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 left-img">
+          <img src="static/copare.jpg" class="img-fluid" alt="" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="team py-5" id="application">
+    <div class="container-2 w-container">
+      <div class="w-form">
+        <style>
+          #myDIV {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            background-color: lightblue;
+            margin-top: 10px;
+            margin-bottom: 10px;
+          }
+
+          .marquee {
+            height: 50px;
+            overflow: hidden;
+            position: relative;
+            background: #fefefe;
+            color: #333;
+            border: 10px solid #4a4a4a;
+          }
+
+          #myButton {
+            font-size: 20px;
+            background: none;
+            border-top: none;
+            outline: none;
+            border-right: none;
+            border-left: none;
+            border-radius: 50px;
+
+            font-family: 'Droid Sans', sans-serif;
+            color: #111010;
+            margin-top: 10px;
+            margin-bottom: 10px;
+
+          }
+
+          #myButton:hover {
+            border-bottom: #a99567 1px solid;
+            color: green;
+          }
+        </style>
+        <marquee behavior="scroll" direction="left">
+          <h3>Welcome</h3>
+        </marquee>
+
+<div >
+  <h3 class="heading heading1 mb-sm-5 mb-3">FEATURE 1 : DATASET NOISE ADDITION</h3>
+  <h3 class="heading heading1 mb-sm-5 mb-3">FEATURE 2 : COMPARISION OF ML ALGORITHMS</h3>
+  <h3 class="heading heading1 mb-sm-5 mb-3">FEATURE 3 : Repository Of Privatised Data</h3>
+</div>
+<h3 id="instruction" class="heading heading1 mb-sm-5 mb-3">INSTRUCTIONS</h3>
+
+<div id="feature1ins" >
+   <h4 class="heading heading1 mb-sm-5 mb-3">Step 1 : Chose a csv</h4>
+   <h4 class="heading heading1 mb-sm-5 mb-3">Step 2 : Input details </h4>
+   <h4 class="heading heading1 mb-sm-5 mb-3">Step 3 : Select DP parameters</h4>
+
+
+
+   <h4 class="heading heading1 mb-sm-5 mb-3">Step 4 : Submit</h4>
+</div>
+<div id="feature2ins" style="display: none;" >
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 1 : Chose a csv</h4>
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 2 : Input details</h4>
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 3 : Select ML parameters</h4>
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 4 : Select DP parameters</h4>
+
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 5 : Submit</h4>
+</div>
+<div id="feature3ins" style="display: none;">
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 1 : Chose a csv</h4>
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 2 : Do This and That</h4>
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 3 : Do This and That</h4>
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 4 : Do This and That</h4>
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 5 : Do This and That</h4>
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 6 : Do This and That</h4>
+
+  <h4 class="heading heading1 mb-sm-5 mb-3">Step 7 : Submit</h4>
+</div>
+        <!-- <button id="myButton" onclick="myFunction()">SHOW INSTRUCTIONS</button>
+
+        <div id="myDIV" style="display: none;">
+          <ul>
+            <li><b> CHOOSE A CSV FILE YOU NEED TO ATTAIN PRIVACY OR TEST YOUR ACCURACIES </b></li>
+            <li><b> UPLOAD IT USING THE TOOL BELOW BY CLICKING "UPLOAD CSV"<b> </li>
+            <li><b> NOW SELECT ONE OT THE FEATURES YOU WANT TO APPLY ON YOUR UPLOADED CSV<b> </li>
+            <li><b> THANK YOU!<b> </li>
+
+          </ul>
+        </div> -->
+
+
+        <script>
+          function myFunction() {
+            var x = document.getElementById("myDIV");
+            var x1 = document.getElementById("myButton");
+
+            if (x.style.display === "none") {
+              x.style.display = "block";
+              x1.innerHTML = "HIDE INSTRUCTIONS"
+            } else {
+              x1.innerHTML = "SHOW INSTRUCTIONS"
+
+              x.style.display = "none";
+            }
+          }
+        </script>
+        <!-- Form-->
+        <div id="loading"></div>
+
+        <div class="form">
+          <form class="signUp" action="" method="POST" enctype="multipart/form-data">
+            <h3>Dataset Noise Addition</h3>
+
+            <fieldset>
+              <input type="file" name="csvfile" id="txtFileUpload" value="" accept=".csv" class="file-button w-button">
+            </fieldset>
+            <br>
+            <p class="mt-2" for="Rows">Which column names contain private information? </p>
+            <input type="text" id="private" name="private" required class="rows" multiple>
+            <br>
+            <br>
+            <p for="Cols">Which of these columns contain binary values? </p>
+
+            <input type="text" id="binary" name="binary" required>
+            <br>
+            <br>
+            <p for="bin">Which of these contain categorical data? </p>
+            <input type="text" id="categorical" name="categorical" required>
+            <br>
+            <br>
+            <p for="namebin">Which of these columns contain only numerical data?</p>
+            <input type="text" id="numerical" name="numerical" required>
+            <br>
+            <br>
+            <p for="epsilon">What are the values of ‘epsilon’, ‘delta’ and ‘sensitivity’? </p>
+            <input type="text" id="epsilon" name="epsilon" required>
+            <button class="form-btn sx log-in" type="button">Feature 2</button>
+            <!-- <button class="form-btn fx front" type="button">Feature 3</button> -->
+
+            <button class="form-btn dx" type="submit">Submit</button>
+          </form>
+          <!-- form -2 -->
+          <!-- <form class="image" action="" method="POST" enctype="multipart/form-data">
+            <h3>Image Noise Addition</h3>
+
+            <fieldset>
+              <label for="img">Select image:</label>
+              <input type="file" id="csvfile" name="csvfile" accept="image/*"> </fieldset>
+            <br>
+
+            <p for="epsilon">What are the values of ‘epsilon’, ‘delta’ and ‘sensitivity’? </p>
+            <input type="text" id="epsilon2" name="epsilon2" required>
+            <button id="feature1" class="form-btn sx back" type="button">Feature 1</button>
+
+            <button class="form-btn sx log-in" type="button">Feature 2</button>
+            <button class="form-btn dx" type="submit">Submit</button>
+          </form> -->
+          <!-- form-3 -->
+          <form class="signIn" action="" method="POST" enctype="multipart/form-data">
+            <h3>Comparisoin of ML Algorithms</h3>
+            <fieldset>
+              <input type="file" name="csvfile" id="txtFileUpload1" value="" accept=".csv" class="file-button w-button">
+            </fieldset>
+            <br>
+            <p for="colinp">Which columns are your input data?</p>
+            <input type="text" id="colinp" name="colinp" required class="colinp">
+            <br>
+            <br>
+            <p for="colop">Which column is your output variable?</p>
+            <input type="text" id="colop" name="colop" required class="colop">
+            <br>
+            <br>
+            <p for="mlalgo">Which type of Machine Learning Algorithm would you like to implement? </p>
+            <br>
+            <div class="styled-select">
+              <select name="mlalgo" id="mlalgo">
+                <option value="1">Classification</option>
+                <option value="2">Regression</option>
+                <option value="3">Clustering</option>
+              </select>
+            </div>
+            <p for="traintest">What is your train-percent and test-percent?</p>
+            <input type="text" id="traintest" name="traintest" required class="traintest">
+            <br>
+            <br>
+            <p for="mlpara">What is the value of epsilon, l2norm and number of clusters?</p>
+            <input type="text" id="mlpara" name="mlpara" required class="mlpara">
+
+            <button class="form-btn sx back" type="button">Feature 1</button>
+            <!-- <button class="form-btn fx front" type="button">Feature 3</button> -->
+
+            <button class="form-btn dx" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+  <script>$(".log-in").click(function () {
+   var x =       document.getElementById('feature1ins');
+
+  var y =      document.getElementById('feature2ins');
+
+  var z =       document.getElementById('feature3ins');
+
+  y.style.display = "block";
+  
+   x.style.display = "none";
+   z.style.display = "none";
+
+
+
+      $(".signIn").addClass("active-dx");
+      $(".signUp").addClass("inactive-sx");
+      $(".signUp").removeClass("active-sx");
+      $(".image").addClass("inactive-fx");
+      $(".image").removeClass("active-fx");
+      $(".signIn").removeClass("inactive-dx");
+    });
+
+    $(".back").click(function () {
+      var x =       document.getElementById('feature1ins');
+
+      var y =      document.getElementById('feature2ins');
+    
+      var z =       document.getElementById('feature3ins');
+    
+    
+      x.style.display = "block";
+      
+       y.style.display = "none";
+       z.style.display = "none";
+    
+    
+      $(".signUp").addClass("active-sx");
+      $(".signIn").addClass("inactive-dx");
+      $(".signIn").removeClass("active-dx");
+      $(".image").addClass("inactive-fx");
+      $(".image").removeClass("active-fx");
+      $(".signUp").removeClass("inactive-sx");
+    });
+    $(".front").click(function () {
+      var x =       document.getElementById('feature1ins');
+
+      var y =      document.getElementById('feature2ins');
+    
+      var z =       document.getElementById('feature3ins');
+    
+    
+      z.style.display = "block";
+      
+       x.style.display = "none";
+       y.style.display = "none";
+    
+    
+      $(".image").addClass("active-fx");
+      $(".signIn").addClass("inactive-dx");
+      $(".signIn").removeClass("active-dx");
+      $(".signUp").addClass("inactive-sx");
+      $(".signup").removeClass("active-sx");
+      $(".image").removeClass("inactive-fx");
+    });
+
+    $(document).ready(function () {
+      $(".signIn").on("submit", function () {
+        $("#loading").show()
+      });//submit
+    });//document ready
+    function hideLoader() {
+      $('#loading').hide();
+    }
+
+    $(window).ready(hideLoader);
+
+    // Strongly recommended: Hide loader after 20 seconds, even if the page hasn't finished loading
+    setTimeout(hideLoader, 20 * 1000)
+    window.onload = function () {
+      var accuracy1 = '{{accuracy1 }}'
+      var accuracy2 = '{{accuracy2 }}'
+
+      var chart1 = new CanvasJS.Chart("chartContainer1", {
+        animationEnabled: true,
+        backgroundColor: "#ADD8E6",
+        title: {
+          text: "Accuracy Of Machine Learning Algorithm WITHOUT Differencial Privacy"
+        },
+      
+        data: [{
+          type: "bar",
+          name: "Percentage",
+
+          color: "#014D65",
+          dataPoints: [
+            { y: +accuracy1, label: "Accuracy" },
+
+          ]
+        }]
+      });
+      chart1.render();
+
+
+
+      var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        backgroundColor: "#ADD8E6",
+        title: {
+          text: "Accuracy Of Machine Learning Algorithm WITH Differencial Privacy"
+        },
+      
+        data: [{
+          type: "bar",
+          name: "Percentage",
+
+          color: "#014D65",
+          dataPoints: [
+            { y: +accuracy2, label: "Accuracy" },
+
+          ]
+        }]
+      });
+      chart.render();
+    }
+  </script>
+
+  {% if accuracy1 != '' %}
+  <section class="team py-5" id="team">
+    <div class="container py-md-5 py-3">
+      <div class="title-desc text-center">
+        <h3 class="heading heading1 mb-sm-5 mb-3"> YOUR ACCURIES ARE AS FOLLOWS</h3>
+      </div>
+      <div class="row team-grid">
+        <div class="col-lg-3 col-sm-6 mb-4">
+          <!-- <div class="box13"> -->
+
+
+
+
+
+        </div>
+        <br>
+        <h3 class="heading heading1 mb-sm-5 mb-3">
+          {% if accuracy1 is defined %}
+          <!-- {{ accuracy1 }} -->
+
+
+          <br>
+          {% else %}
+          accuracy is not defined
+          {% endif %}</h3>
+        <div id="chartContainer1" style="height: 300px; width: 100%;"></div>
+        <br>
+        <h3 class="heading heading1 mb-sm-5 mb-3">
+
+          {% if accuracy2 is defined %}
+
+          <!-- {{ accuracy2 }} -->
+
+          <br>
+          {% else %}
+          accuracy is not defined
+          {% endif %}</h3>
+          <br>
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+
+        <br>
+      </div>
+    </div>
+    </div>
+
+    <br>
+    </div>
+    </div>
+  </section>
+
+
+  {% endif %}
+  <section class="team py-5">
+    <h3 class="heading heading1 mb-sm-5 mb-3"> REPOSITORY OF PRIVATISED DATA</h3>
+    <ol class="gradient-list">
+      {% for file in files %}
+      <li>
+          <a href="{{ (request.path + '/' if request.path != '/' else '') + file }}">
+              {{ (request.path + '/' if request.path != '/' else '') + file }}
+          </a>
+      </li>
+      {% endfor %}
+  </ol>
+  </section>
+  <!-- <footer class="py-md-5 py-3">
+    <div class="container py-md-5 py-3">
+      <div class="row footer-grids">
+        <div class="col-lg-3 col-sm-6 mb-lg-0 mb-sm-5 mb-4">
+          <h4 class="mb-4">TECH
+            <p class="mb-3">
+              TECH provides services in product development, web development, mobile development, technology solutions &
+              architectural consulting.</p>
+        </div>
+        <div class="col-lg-3 col-sm-6 mb-md-0 mb-sm-5 mb-4">
+          <h4 class="mb-4">Address Info</h4>
+          <p><span class="fa mr-2 fa-map-marker"></span>102, Octave Complex, Baner Rd, Pallod Farms, Baner, Pune
+            <span>Maharashtra 411045</span></p>
+          <p class="phone py-2"><span class="fa mr-2 fa-phone"></span> 9767569906 </p>
+          <p><span class="fa mr-2 fa-envelope"></span><a href="mailto:contact@TECH.com">contact@TECH.com</a></p>
+        </div>
+      </div>
+    </div>
+  </footer> -->
+  <!-- //footer -->
+
+  <!-- copyright -->
+  <div class="copyright">
+    <div class="container py-4">
+      <div class=" text-center">
+        <p>© By VIT Pune 2021</p>
+      </div>
+    </div>
+  </div>
+  <!-- //copyright -->
+
+  <!-- move top -->
+  <div class="move-top text-right">
+    <a href="#home" class="move-top">
+      <span class="fa fa-angle-up  mb-3" aria-hidden="true"></span>
+    </a>
+  </div>
+  <!-- move top -->
+</body>
+
+</html>
+
+</html>
